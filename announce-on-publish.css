@@ -1,0 +1,32 @@
+#announce-modal-box {
+  width: 100%;
+  height: 100%;
+  opacity: .9;
+  top: 0;
+  left: 0;
+  display: none;
+  position: fixed;
+  background-color: #313131;
+  overflow: auto;
+  z-index: 100000;
+}
+#announce-on-publish {
+  position: absolute;
+  left: 15%;
+  top: 15%;
+  width: 70%;
+  max-width: 600px;
+  background: #f1f1f1;
+  padding: 0px 15px 5px 15px;
+}
+#announce-on-publish input,
+#announce-on-publish textarea {
+  display: block;
+  width: 100%;
+}
+#announce-on-publish textarea {
+  height: 100px;
+}
+#announce-on-publish .button {
+  margin: 10px 5px 10px 0px;
+}
