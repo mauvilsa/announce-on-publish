@@ -7,7 +7,7 @@ NEWVER="no";
 n=1;
 while [ "$n" -lt "${#FILES[@]}" ]; do
   case "${FILES[$n]}" in
-    "announce-on-publish.js" | "announce-on-publish.css" )
+    "announce-on-publish.php" | "announce-on-publish.js" | "announce-on-publish.css" )
       [ "${FILES[$((n-1))]}" == "MM" ] &&
         echo "${0##*/}: error: unable to update version due to change after staged: ${FILES[$n]}" 1>&2 &&
         exit 1;
@@ -29,7 +29,7 @@ while [ "$n" -lt "${#FILES[@]}" ]; do
 done
 
 if [ "$NEWVER" = "yes" ]; then
-  sed -ri 's|^( * Version:     )[0-9.]+|\1 '"$V"' |' announce-on-publish.php;
+  sed -ri 's|^( \* Version: +)[0-9.]+|\1'"$V"'|' announce-on-publish.php;
   git add announce-on-publish.php;
 fi
 

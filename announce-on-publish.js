@@ -31,7 +31,7 @@ Street, Fifth Floor, Boston, MA  02110-1301, USA.
   $(document).ready( function () {
     /// Check that WP REST API plugin is active ///
     if ( announce_on_publish.rest_api !== 'true' ) {
-      alert('Announce on Publish enabled for '+announce_on_publish.post_type+', but WP REST API plugin is required to be installed and active and apperently it is not. Announcements will not be posted.');
+      alert(announce_on_publish.no_rest_api);
       return;
     }
 
@@ -48,20 +48,22 @@ Street, Fifth Floor, Boston, MA  02110-1301, USA.
     modbox = $('<div id="announce-modal-box" style="display: none;"/>'),
     title = $('<input type="text" id="announce-title" name="announce-title" size="30" value="" spellcheck="true" autocomplete="off">'),
     content = $('<textarea id="announce-content" name="announce-content" cols="40"></textarea>'),
-    cancel = $('<span id="announce-cancel" class="button button-large">Cancel</span>'),
-    publish = $('<span id="announce-confirm" class="button button-primary button-large">Publish</span>');
+    cancel = $('<span id="announce-cancel" class="button button-large">'+announce_on_publish.cancel+'</span>'),
+    publish = $('<span id="announce-confirm" class="button button-primary button-large">'+announce_on_publish.publish+'</span>');
 
+    modbox
+      .append('<div id="announce-background"/>')
+      .appendTo('body');
     $('<div id="announce-on-publish" class="postbox-container"/>')
-      .append('<h2>Announcement post</h2>')
-      .append('<p>Input the details for the additional post announcing the creation of this '+announce_on_publish.post_type+'. Please <b>check it carefully</b> since any mistake can only be corrected by going to the respective announcement targets.</p>')
-      .append('<label for="announce-title">Title for announcement post</label>')
+      .append('<h2>'+announce_on_publish.modbox_title+'</h2>')
+      .append('<p>'+announce_on_publish.announce_info+'</p>')
+      .append('<label for="announce-title">'+announce_on_publish.announce_title+'</label>')
       .append(title)
-      .append('<label for="announce-content">Text for announcement post</label>')
+      .append('<label for="announce-content">'+announce_on_publish.announce_text+'</label>')
       .append(content)
       .append(cancel)
       .append(publish)
       .appendTo(modbox);
-    modbox.appendTo('body');
 
     /// Override publish button ///
     $('#publish').on( 'click', publish_request );
@@ -69,7 +71,7 @@ Street, Fifth Floor, Boston, MA  02110-1301, USA.
       if ( $(event.currentTarget).attr('name') !== 'publish' )
         return;
 
-      title[0].value = 'New '+announce_on_publish.post_type+': ';
+      title[0].value = announce_on_publish.announce_title_prefix;
       title[0].value += typeof curr_title.value !== 'undefined' ? curr_title.value : '';
       content[0].value = typeof curr_content.value !== 'undefined' ? curr_content.value : '';
 
@@ -87,7 +89,7 @@ Street, Fifth Floor, Boston, MA  02110-1301, USA.
     publish.on( 'click', function publish_confirm() {
       /// Check that title and content are not empty ///
       if ( title[0].value.trim() === '' || content[0].value.trim() === '' )  {
-        alert('The title and content are required to be non-empty!');
+        alert(announce_on_publish.empty_content);
         return;
       }
 
@@ -107,7 +109,7 @@ Street, Fifth Floor, Boston, MA  02110-1301, USA.
         alert('Announcement post created with id '+response.id);
       }).catch(function( err ) {
         console.log(err);
-        alert('There was a problem creating the announcement post: '+err.toString());
+        alert(announce_on_publish.post_problem+err.toString());
       });
 
     });

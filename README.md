@@ -8,7 +8,7 @@
 * License:           GPLv2 or later
 * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
-When publishing a new post (for a given list of post types), a modal box is
+When publishing a new post (for a filtered list of post types), a modal box is
 presented for creating an additional announcement post.
 
 
@@ -29,13 +29,13 @@ with fields to edit the announcement title and content. Once the post is in
 publish status, the announcement modal box will not appear anymore for any
 edits done the original post.
 
-[//]: # (### Support ###)
-[//]: # (* Community support via the [support forums on wordpress.org](https://wordpress.org/support/plugin/announce-on-publish).)
+### Support ###
+* Community support via the [support forums on wordpress.org](https://wordpress.org/support/plugin/announce-on-publish).
 
 ### Contribute ###
 * Development of this plugin [on GitHub](https://github.com/mauvilsa/wp-announce-on-publish).
-[//]: # (* If you think you’ve found a bug (e.g. you’re experiencing unexpected behavior), please post at the [support forums](https://wordpress.org/support/plugin/announce-on-publish) first.)
-[//]: # (* If you want to help translating this plugin, you can do so [on WordPress Translate](https://translate.wordpress.org/projects/wp-plugins/announce-on-publish).)
+* If you think you’ve found a bug (e.g. you’re experiencing unexpected behavior), please post at the [support forums](https://wordpress.org/support/plugin/announce-on-publish) first.
+* If you want to help translating this plugin, you can do so [on WordPress Translate](https://translate.wordpress.org/projects/wp-plugins/announce-on-publish).
 
 ### Credits ###
 * Author: [Mauricio Villegas](https://github.com/mauvilsa)
