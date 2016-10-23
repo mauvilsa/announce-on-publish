@@ -1,22 +1,35 @@
 <?php
 /**
- * Plugin Name: Announce on publish
+ * Plugin Name: Announce on Publish
  * Description: When publishing a new post (for a given list of post types), a modal box is presented for creating an additional announcement post.
+ * Depends:     WP REST API
  * Author:      mauvilsa
- * Author URI:  http://mvillegas.info
+ * Author URI:  https://github.com/mauvilsa
  * Plugin URI:  https://github.com/mauvilsa/wp-announce-on-publish
- * License:     MIT License
- * License URI: https://github.com/mauvilsa/wp-announce-on-publish/blob/master/LICENSE.md
+ * License:     GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Version:     2016.10.21
  */
 
-defined( 'ABSPATH' ) || exit;
+/*
+Copyright (C) 2016 Mauricio Villegas <mauricio_ville@yahoo.com>
 
-/*add_filter( 'announce_sources', function ( $post_types ) {
-  if ( isset( $post_types[ 'post' ] ) )
-    unset( $post_types[ 'post' ] );
-  return $post_types;
-});*/
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
+Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
+
+defined( 'ABSPATH' ) || exit;
 
 /// Enqueue in admin ///
 add_action( 'admin_enqueue_scripts', function ( $hook ) {
@@ -36,12 +49,7 @@ add_action( 'admin_enqueue_scripts', function ( $hook ) {
        || get_post()->post_status === 'publish'
        // Return if post type not in sources list
        || ! in_array( get_post()->post_type, (array)$announce_sources ) )
-       //|| get_post()->post_type === $announce_target )      // Return if it is ordinary post
     return;
-
-  /// Return if post type not in list ///
-  //if ( ! in_array( get_post()->post_type, (array)$announce_sources ) )
-  //  return;
 
   /// Register the wpapi script ///
   wp_register_script(
@@ -53,9 +61,7 @@ add_action( 'admin_enqueue_scripts', function ( $hook ) {
   wp_register_script(
     'announce-on-publish',
     plugin_dir_url( __FILE__ ) . 'announce-on-publish.js',
-    array( 'admin-wpapi' )/*,
-    false,
-    true // enqueue in footer*/
+    array( 'admin-wpapi' )
   );
 
   /// Localize the script to inject a NONCE for authenticating ///
@@ -66,7 +72,8 @@ add_action( 'admin_enqueue_scripts', function ( $hook ) {
       'target' => $announce_target,
       'post_type' => get_post()->post_type,
       'root' => esc_url_raw( rest_url() ),
-      'nonce' => wp_create_nonce( 'wp_rest' )
+      'nonce' => wp_create_nonce( 'wp_rest' ),
+      'rest_api' => is_plugin_active('rest-api/plugin.php') ? 'true' : 'false'
     )
   );
 

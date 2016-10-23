@@ -1,0 +1,36 @@
+#!/bin/bash
+
+FILES=( $(git status --porcelain | grep ^M) );
+V=$(date -u +%Y.%m.%d);
+NEWVER="no";
+
+n=1;
+while [ "$n" -lt "${#FILES[@]}" ]; do
+  case "${FILES[$n]}" in
+    "announce-on-publish.js" | "announce-on-publish.css" )
+      [ "${FILES[$((n-1))]}" == "MM" ] &&
+        echo "${0##*/}: error: unable to update version due to change after staged: ${FILES[$n]}" 1>&2 &&
+        exit 1;
+      echo "${0##*/}: updating version of ${FILES[$n]}" 1>&2;
+      sed -i 's|$Version:[^$]*\$|$Version: '"$V"'$|' "${FILES[$n]}";
+      git add "${FILES[$n]}";
+      NEWVER="yes";
+      ;;
+  esac
+  if [ "${FILES[$n]:$((${#FILES[$n]}-3))}" = ".js" ]; then
+    echo "${0##*/}: jshint ${FILES[$n]}" 1>&2;
+    jshint "${FILES[$n]}";
+  elif [ "${FILES[$n]:$((${#FILES[$n]}-4))}" = ".php" ]; then
+    echo "${0##*/}: php -l ${FILES[$n]}" 1>&2;
+    php -l "${FILES[$n]}";
+  fi
+  [ "$?" != "0" ] && exit 1;
+  n=$((n+2));
+done
+
+if [ "$NEWVER" = "yes" ]; then
+  sed -ri 's|^( * Version:     )[0-9.]+|\1 '"$V"' |' announce-on-publish.php;
+  git add announce-on-publish.php;
+fi
+
+exit 0;

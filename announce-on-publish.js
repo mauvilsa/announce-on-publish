@@ -1,34 +1,62 @@
+/**
+ * Javascript functionality for the announce-on-publish wordpress plugin.
+ *
+ * @version $Version: 2016.10.23$
+ * @author Mauricio Villegas <mauvilsa@upv.es>
+ * @copyright Copyright(c) 2016, Mauricio Villegas <mauricio_ville@yahoo.com>
+ * @license GPLv2 or later
+ */
+
+/*
+Copyright (C) 2016 Mauricio Villegas <mauricio_ville@yahoo.com>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
+Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
+
 (function( WPAPI, $ ) {
   'use strict';
 
   $(document).ready( function () {
+    /// Check that WP REST API plugin is active ///
+    if ( announce_on_publish.rest_api !== 'true' ) {
+      alert('Announce on Publish enabled for '+announce_on_publish.post_type+', but WP REST API plugin is required to be installed and active and apperently it is not. Announcements will not be posted.');
+      return;
+    }
+
     /// Create WPAPI object for creating posts ///
     var wp = new WPAPI({
       endpoint: announce_on_publish.root,
       nonce: announce_on_publish.nonce
     });
 
-    // You can now authenticate, and read/write private data!
-    /*wp.users().me().then(function( me ) {
-      console.log( 'I am ' + me.name + '!' );
-    });*/
-
     /// Create announcement modal box ///
     var
     curr_title = $('#title')[0],
     curr_content = $('#content')[0],
     modbox = $('<div id="announce-modal-box" style="display: none;"/>'),
-    title = $('<input type="text" id="publish-title" name="publish-title" size="30" value="" spellcheck="true" autocomplete="off">'),
-    content = $('<textarea id="publish-content" name="publish-content" cols="40"></textarea>'),
-    cancel = $('<span id="publish-cancel" class="button button-large">Cancel</span>'),
-    publish = $('<span id="publish-confirm" class="button button-primary button-large">Publish</span>');
+    title = $('<input type="text" id="announce-title" name="announce-title" size="30" value="" spellcheck="true" autocomplete="off">'),
+    content = $('<textarea id="announce-content" name="announce-content" cols="40"></textarea>'),
+    cancel = $('<span id="announce-cancel" class="button button-large">Cancel</span>'),
+    publish = $('<span id="announce-confirm" class="button button-primary button-large">Publish</span>');
 
     $('<div id="announce-on-publish" class="postbox-container"/>')
       .append('<h2>Announcement post</h2>')
       .append('<p>Input the details for the additional post announcing the creation of this '+announce_on_publish.post_type+'. Please <b>check it carefully</b> since any mistake can only be corrected by going to the respective announcement targets.</p>')
-      .append('<label for="publish-title">Title for announcement post</label>')
+      .append('<label for="announce-title">Title for announcement post</label>')
       .append(title)
-      .append('<label for="publish-content">Text for announcement post</label>')
+      .append('<label for="announce-content">Text for announcement post</label>')
       .append(content)
       .append(cancel)
       .append(publish)
@@ -52,13 +80,11 @@
 
     /// Setup publish cancel button ///
     cancel.on( 'click', function publish_cancel() {
-      console.log('publish_cancel called');
       modbox.css('display','none');
     });
 
     /// Setup publish confirm button ///
     publish.on( 'click', function publish_confirm() {
-      console.log('publish_confirm called');
       /// Check that title and content are not empty ///
       if ( title[0].value.trim() === '' || content[0].value.trim() === '' )  {
         alert('The title and content are required to be non-empty!');
@@ -77,9 +103,11 @@
         content: content[0].value,
         status: 'publish'
       }).then(function( response ) {
-        // "response" will hold all properties of your newly-created post,
-        // including the unique `id` the post was assigned on creation
-        console.log( 'response.id: ' + response.id );
+        console.log(response);
+        alert('Announcement post created with id '+response.id);
+      }).catch(function( err ) {
+        console.log(err);
+        alert('There was a problem creating the announcement post: '+err.toString());
       });
 
     });
