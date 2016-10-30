@@ -33,7 +33,7 @@ edits done the original post.
 * Community support via the [support forums on wordpress.org](https://wordpress.org/support/plugin/announce-on-publish).
 
 ### Contribute ###
-* Development of this plugin [on GitHub](https://github.com/mauvilsa/wp-announce-on-publish).
+* Development of this plugin [on GitHub](https://github.com/mauvilsa/announce-on-publish).
 * If you think you’ve found a bug (e.g. you’re experiencing unexpected behavior), please post at the [support forums](https://wordpress.org/support/plugin/announce-on-publish) first.
 * If you want to help translating this plugin, you can do so [on WordPress Translate](https://translate.wordpress.org/projects/wp-plugins/announce-on-publish).
 
@@ -54,28 +54,25 @@ edits done the original post.
 
 ### By default what post types are announced? ###
 
-All except ordinary posts, i.e., custom post types and pages.
+None. These need to be configured explicitly.
 
-### Can the post types for announcements be configured? ###
+### How do I configure the post types to be announced? ###
 
-Yes, via a PHP filter included in a functions.php of an active plugin or
-theme. For example to include only a few specific post types, the following
-filter would be added:
+Go to Settings -> Announce on Publish. Then mark the checkboxes for the post
+types you want to announce and click on Save Changes.
 
-<pre>add_filter( 'announce_sources', function ( $post_types ) {
-  return array( 'post_type_1' => true, 'post_type_2' => true, ... );
-});</pre>
 
-The following filter would exclude a single post type:
+## Screenshots ##
 
-<pre>add_filter( 'announce_sources', function ( $post_types ) {
-  if ( isset( $post_types[ 'post_to_exclude' ] ) )
-    unset( $post_types[ 'post_to_exclude' ] );
-  return $post_types;
-});</pre>
+1. The settings page for configuring the post types to announce.
+2. The modal box that is presented for creating the announcements.
 
 
 ## Changelog ##
+
+### 2016.10.30 ###
+* Added settings page to ease configuration of the post types.
+* Announcements can now be skipped if marked as not mandatory.
 
 ### 2016.10.23 ###
 * Initial version.

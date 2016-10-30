@@ -1,7 +1,7 @@
 /**
  * Stylesheet for the announce-on-publish wordpress plugin.
  *
- * @version $Version: 2016.10.23$
+ * @version $Version: 2016.10.30$
  * @author Mauricio Villegas <mauvilsa@upv.es>
  * @copyright Copyright(c) 2016, Mauricio Villegas <mauricio_ville@yahoo.com>
  * @license GPLv2 or later
@@ -25,7 +25,16 @@ this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
 Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#announce-modal-box {
+/* Settings page styles */
+#announce-settings table {
+  border-spacing: 5px;
+}
+#announce-settings .ccol {
+  text-align: center;
+}
+
+/* Modal box styles */
+#announce-modbox-container {
   width: 100%;
   height: 100%;
   top: 0;
@@ -44,7 +53,7 @@ Street, Fifth Floor, Boston, MA  02110-1301, USA.
   opacity: .8;
   background-color: #313131;
 }
-#announce-on-publish {
+#announce-modbox {
   position: absolute;
   left: 15%;
   top: 15%;
@@ -53,14 +62,15 @@ Street, Fifth Floor, Boston, MA  02110-1301, USA.
   background: #f1f1f1;
   padding: 0 15px 5px 15px;
 }
-#announce-on-publish input,
-#announce-on-publish textarea {
+#announce-modbox input,
+#announce-modbox textarea {
   display: block;
   width: 100%;
 }
-#announce-on-publish textarea {
+#announce-modbox textarea {
   height: 100px;
 }
-#announce-on-publish .button {
+#announce-modbox .button {
+  float: right;
   margin: 10px 5px 10px 0;
 }
