@@ -4,7 +4,7 @@
 * Donate link:       https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DX5CDCA5FTRAY
 * Requires at least: 4.6
 * Tested up to:      4.6.1
-* Stable tag:        2016.10.23
+* Stable tag:        2016.10.30
 * License:           GPLv2 or later
 * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 

@@ -2,7 +2,7 @@
 /**
  * Settings page the announce-on-publish wordpress plugin.
  *
- * @version $Version: 2016.10.23$
+ * @version $Version: 2016.10.30$
  * @author Mauricio Villegas <mauvilsa@upv.es>
  * @copyright Copyright(c) 2016, Mauricio Villegas <mauricio_ville@yahoo.com>
  * @license GPLv2 or later

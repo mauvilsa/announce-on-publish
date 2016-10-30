@@ -33,7 +33,8 @@ done
 
 if [ "$NEWVER" = "yes" ]; then
   sed -ri 's|^( \* Version: +)[0-9.]+|\1'"$V"'|' announce-on-publish.php;
-  git add announce-on-publish.php;
+  sed -ri 's|^(\* Stable tag: +)[0-9.]+|\1'"$V"'|' README.md;
+  git add announce-on-publish.php README.md;
 fi
 
 exit 0;
